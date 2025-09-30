@@ -21,13 +21,9 @@ Semua aplikasi menggunakan `remember { mutableStateOf() }` untuk menyimpan nilai
 ---
 
 ## Analisis
-
-Counter Plus-Minus → Saat tombol ditekan, nilai count berubah. Karena count disimpan di remember { mutableStateOf() }, Compose tahu ada perubahan dan otomatis menggambar ulang teks.
-
-Toggle Warna → State boolean isRed jadi penentu warna. Klik kotak → nilai berubah → background ikut berganti. Kalau hanya pakai .background tanpa state, UI tidak bisa berubah dinamis.
-
-Profil Interaktif → Tombol Follow/Unfollow menggunakan state isFollowed. Nilainya berubah setiap kali diklik, lalu Compose otomatis update teks tombol dan indikator. Kalau aplikasi ditutup dan dibuka lagi, state tidak tersimpan karena remember hanya berlaku selama composable aktif. Untuk menyimpan state permanen harus pakai rememberSaveable atau storage lain.
-
+Counter Plus-Minus : Saat tombol ditekan, nilai count berubah. Karena count disimpan di remember { mutableStateOf() }, Compose tahu ada perubahan dan otomatis menggambar ulang teks.
+Toggle Warna : State boolean isRed jadi penentu warna. Klik kotak → nilai berubah → background ikut berganti. Kalau hanya pakai .background tanpa state, UI tidak bisa berubah dinamis.
+Profil Interaktif : Tombol Follow/Unfollow menggunakan state isFollowed. Nilainya berubah setiap kali diklik, lalu Compose otomatis update teks tombol dan indikator. Kalau aplikasi ditutup dan dibuka lagi, state tidak tersimpan karena remember hanya berlaku selama composable aktif. Untuk menyimpan state permanen harus pakai rememberSaveable atau storage lain.
 Kesimpulan: Jetpack Compose lebih sederhana dibanding XML tradisional. UI jadi reaktif mengikuti state, kode lebih ringkas, dan gampang dipelihara.
 
 ##  Cuplikan Kode  
@@ -64,37 +60,11 @@ fun PlusMinusApp() {
     }
 }
 
-### ToggleApp
-```kotlin
-@Composable
-fun ToggleApp() {
-    var isRed by remember { mutableStateOf(true) }
-
-    Box(
-        modifier = Modifier
-            .size(200.dp)
-            .padding(16.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(if (isRed) Color.Red else Color.Green)
-            .clickable { isRed = !isRed },
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = if (isRed) "Merah" else "Hijau",
-            color = Color.White,
-            fontWeight = FontWeight.Bold
-        )
-    }
-}
-
+```
 <img width="2476" height="1339" alt="Screenshot 2025-09-30 231821" src="https://github.com/user-attachments/assets/65be8cf6-48c2-4c20-9c67-bf6be8e625c8" />
 <img width="2580" height="1321" alt="Screenshot 2025-09-30 231142" src="https://github.com/user-attachments/assets/c96363f8-b794-45ee-8adf-399acfa4f864" />
 
-
-
-
-
-### Profile
+### Toggle
 ```kotlin
 @Composable
 fun ToggleApp() {
@@ -116,11 +86,13 @@ fun ToggleApp() {
         )
     }
 }
+```
 
 <img width="2549" height="1056" alt="Screenshot 2025-09-30 231740" src="https://github.com/user-attachments/assets/ecefbe3f-aabe-4147-ac81-c146e441b482" />
 <img width="2696" height="1325" alt="Screenshot 2025-09-30 231315" src="https://github.com/user-attachments/assets/428b036c-4392-4d03-b568-f8e265ebeac2" />
 
-
+### Profile
+```kotlin
 @Composable
 fun ProfileApp() {
     var isFollowed by remember { mutableStateOf(false) }
@@ -186,25 +158,11 @@ fun ProfileApp() {
         }
     }
 }
+```
 
 
 <img width="2575" height="1479" alt="Screenshot 2025-09-30 231418" src="https://github.com/user-attachments/assets/9698dba0-54fd-4b61-adca-d5324c37cc43" />
 <img width="2644" height="1444" alt="Screenshot 2025-09-30 231657" src="https://github.com/user-attachments/assets/87bf96fe-42f8-45c7-90d2-bbd199b9d288" />
-
-
-## 📌 Analisis  
-
-### Counter Plus-Minus  
-Saat tombol ditekan, nilai `count` berubah. Karena `count` disimpan di `remember { mutableStateOf() }`, Compose tahu ada perubahan dan otomatis menggambar ulang teks.  
-
-### Toggle Warna  
-State boolean `isRed` jadi penentu warna. Klik kotak → nilai berubah → background ikut berganti.  
-Kalau hanya pakai `.background` tanpa state, UI tidak bisa berubah dinamis.  
-
-### Profil Interaktif  
-Tombol Follow/Unfollow menggunakan state `isFollowed`. Nilainya berubah setiap kali diklik, lalu Compose otomatis update teks tombol dan indikator.  
-Kalau aplikasi ditutup dan dibuka lagi, state tidak tersimpan karena `remember` hanya berlaku selama composable aktif.  
-Untuk menyimpan state permanen harus pakai `rememberSaveable` atau storage lain.  
 
 ---
 
